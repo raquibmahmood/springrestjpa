@@ -24,6 +24,7 @@ public class CompanyController {
 	
 	private Logger log = Logger.getLogger(CompanyController.class);
 	
+	
 	@Autowired
 	private CompanyService companyService;
 	
