@@ -2,6 +2,7 @@ package com.demoapp.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import com.demoapp.service.OwnerService;
 @RestController
 public class OwnerController {
 
+	private Logger log = Logger.getLogger(OwnerController.class);
+	
 	@Autowired
 	private OwnerService ownerService;
 	
@@ -29,7 +32,8 @@ public class OwnerController {
 				return new ResponseEntity<List<Owner>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
 			}		
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			log.error(e);
 		}			
 		
 		return new ResponseEntity<List<Owner>>(owners, HttpStatus.OK);
@@ -41,9 +45,8 @@ public class OwnerController {
 		
 		try {
 			ownerService.createOwner(owner);
-		} catch (Exception e) {
-			
-			System.out.println(e.getMessage());
+		} catch (Exception e) {			
+			log.error(e);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 
@@ -59,7 +62,7 @@ public class OwnerController {
 			ownerService.deleteAllOwner();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 		
 		return new ResponseEntity<Owner>(HttpStatus.NO_CONTENT);

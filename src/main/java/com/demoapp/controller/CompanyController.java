@@ -2,6 +2,7 @@ package com.demoapp.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ import com.demoapp.service.CompanyService;
 @RestController
 public class CompanyController {
 	
+	private Logger log = Logger.getLogger(CompanyController.class);
+	
 	@Autowired
 	private CompanyService companyService;
 	
@@ -30,26 +33,22 @@ public class CompanyController {
 		if(companies.isEmpty()){
 			return new ResponseEntity<List<Company>>(HttpStatus.NO_CONTENT);
 		}
-		
-		for (Company company : companies) {
-			System.out.println("Owners collection: "+company.getOwners().size());
-		}
-		
+			
 		return new ResponseEntity<List<Company>>(companies, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/company/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createUser(@RequestBody Company company) {
-		System.out.println("Creating company " + company.getName());
+		log.debug("Creating company " + company.getName());
 		
 		try {
 			company = companyService.saveCompany(company);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 		
-		System.out.println(company.toString());
+		log.debug(company.toString());
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "Application/json");
@@ -88,8 +87,7 @@ public class CompanyController {
 		try {
 			currentCompany =  companyService.saveCompany(currentCompany);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 		return new ResponseEntity<Company>(currentCompany, HttpStatus.OK);
 	}
@@ -107,8 +105,7 @@ public class CompanyController {
 		try {
 			companyService.deleteCompanyById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 		return new ResponseEntity<Company>(HttpStatus.NO_CONTENT);
 	}
@@ -123,9 +120,8 @@ public class CompanyController {
 		try {
 			companyService.deleteAllCompanies();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
+			log.error(e);
+		}
 		return new ResponseEntity<Company>(HttpStatus.NO_CONTENT);
 	}
 
