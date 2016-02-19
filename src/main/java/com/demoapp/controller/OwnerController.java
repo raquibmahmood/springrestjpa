@@ -51,4 +51,17 @@ public class OwnerController {
 		headers.add("Content-type", "Application/json");
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value="/owner/" ,method = RequestMethod.DELETE)
+	public ResponseEntity<Owner> deleteAll(){
+		
+		try {
+			ownerService.deleteAllOwner();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Owner>(HttpStatus.NO_CONTENT);
+	}
 }

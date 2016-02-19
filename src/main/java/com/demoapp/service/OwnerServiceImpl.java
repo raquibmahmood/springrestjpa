@@ -33,4 +33,10 @@ public class OwnerServiceImpl implements OwnerService {
 		ownerRepository.save(owner);
 	}
 
+	@Override
+	public void deleteAllOwner() throws Exception {
+		// TODO Auto-generated method stub
+		ownerRepository.deleteAll();
+	}
+
 }

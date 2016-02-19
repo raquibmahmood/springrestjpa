@@ -8,5 +8,6 @@ public interface OwnerService {
 	
 	public List<Owner> findAll()throws Exception;
 	public void createOwner(Owner owner)throws Exception;
+	public void deleteAllOwner()throws Exception;
 
 }
